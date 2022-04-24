@@ -118,9 +118,13 @@ namespace BasketballTourney{
         if (matchup.at(0).getPower() > matchup.at(1).getPower()) {
             participatingTeams.push_back(matchup.at(0));
             matchup.at(1) = fightLoser;
+            swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()));
+            cout << matchup.at(0).getName() << " has won!" << endl;
         }  else {
             participatingTeams.push_back(matchup.at(1));
             matchup.at(0) = fightLoser;
+            swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()));
+            cout << matchup.at(1).getName() << " has won!" << endl;
         }
         clearMatchup();
 
@@ -141,29 +145,32 @@ namespace BasketballTourney{
     }
 
     void BBallTournament::startTournament(){
+        BBallTeam winner;
+        string teamName;
+        cout << "Input your team name: ";
+        getline(cin, teamName);
         // Declares a temporary value to
-        int tempVal = participatingTeams.size();
+        int tempVal = (int) participatingTeams.size();
 
         // While tempVal is != 1, the participating teams at the front are pushed back to matchup
         // the front is swapped out to the back and popped
         // fight algorithm is called and the return value of that is pushed to= results
         // tempval is decreased
         // final value in participatingTeams is pushed as final result
-        // results are printed
-        //
-        //
+        // results are printedd
         while (tempVal != 1) {
-            matchup.push_back(participatingTeams.front());
-            swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()-1));
+            matchup.push_back(participatingTeams.back());
             participatingTeams.pop_back();
-            matchup.push_back(participatingTeams.at(1));
-            swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()-1));
+            matchup.push_back(participatingTeams.back());
             participatingTeams.pop_back();
             results.push_back(fight());
 
             tempVal--;
         }
         results.push_back(participatingTeams.at(0));
+        if (participatingTeams.at(0).getName() == winner.getName()) {
+            cout << "Your team has won!" << endl;
+        }
         printResults();
     }
     void BBallTournament::swap(BBallTeam team1, BBallTeam team2){

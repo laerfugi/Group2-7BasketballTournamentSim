@@ -4,7 +4,7 @@
 
 // Created by Shengwei Jian April 2022
 
-#include "BBallTeam.cpp"
+#include "BBallTeam.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -15,13 +15,23 @@ using namespace std;
 void displayAll(vector<BasketballTourney::BBallTeam> myTeamVector);//display all existing team from myTeamVector
 void addTeam(vector<BasketballTourney::BBallTeam> myTeamVector,string name);//add a new team to myTeamVector
 void modifyTeam(vector<BasketballTourney::BBallTeam> myTeamVector,string name);//modify a team from myTeamVector
+void pastRank();
 
 
 void displayAll(vector<BasketballTourney::BBallTeam> myTeamVector){
+    // Modified the displayAll to be a bit more readable
+    cout << "Teams listing:" << endl;
     for(size_t i=0;i<myTeamVector.size();i++){
-        cout<<"Name: "<<myTeamVector[i].getName()<<" Games played: "<<myTeamVector[i].getNumGamesPlayed()<<" Games won: "<<myTeamVector[i].getNumGamesWon()<<" \nOffensive Efficiency: "
-        <<myTeamVector[i].getOffensiveEfficiency()<<" Defensive Efficiency: "<<myTeamVector[i].getDefensiveEfficiency()<<" Power Rate: "<<myTeamVector[i].getPowerRate()
-        <<" \nGoal Percentage Shot: "<<myTeamVector[i].getGoalPercentageShot()<<" Goal Percentage Allowed: "<<myTeamVector[i].getGoalPercentageAllowed()<<" Power: "<<myTeamVector[i].getPower()<<endl<<endl;
+        cout << " Name: " << myTeamVector[i].getName() << endl;
+        cout << " Games played: " << myTeamVector[i].getNumGamesPlayed() << endl;
+        cout << " Games won: " << myTeamVector[i].getNumGamesWon() << endl;
+        cout << " Offensive Efficiency: " << myTeamVector[i].getOffensiveEfficiency() << endl;
+        cout << " Defensive Efficiency: " << myTeamVector[i].getDefensiveEfficiency() << endl;
+        cout << " Power Rate: " << myTeamVector[i].getPowerRate() << endl;
+        cout << " Goal Percentage Shot: " << myTeamVector[i].getGoalPercentageShot() << endl;
+        cout << " Goal Percentage Allowed: " << myTeamVector[i].getGoalPercentageAllowed() << endl;
+        cout << " Power: " << myTeamVector[i].getPower() << endl;
+        cout << "--------------------------------------------" << endl;
     }
 }
 
@@ -92,8 +102,8 @@ void addTeam(vector<BasketballTourney::BBallTeam> myTeamVector,string name){
         //completed message
         cout<<"Team added successfully"<<endl;
         cout<<"Name: "<<myTeam.getName()<<" Games played: "<<myTeam.getNumGamesPlayed()<<" Games won: "<<myTeam.getNumGamesWon()<<" \nOffensive Efficiency: "
-        <<myTeam.getOffensiveEfficiency()<<" Defensive Efficiency: "<<myTeam.getDefensiveEfficiency()<<" Power Rate: "<<myTeam.getPowerRate()
-        <<" \nGoal Percentage Shot: "<<myTeam.getGoalPercentageShot()<<" Goal Percentage Allowed: "<<myTeam.getGoalPercentageAllowed()<<" Power: "<<myTeam.getPower()<<endl<<endl;
+            <<myTeam.getOffensiveEfficiency()<<" Defensive Efficiency: "<<myTeam.getDefensiveEfficiency()<<" Power Rate: "<<myTeam.getPowerRate()
+            <<" \nGoal Percentage Shot: "<<myTeam.getGoalPercentageShot()<<" Goal Percentage Allowed: "<<myTeam.getGoalPercentageAllowed()<<" Power: "<<myTeam.getPower()<<endl<<endl;
     }
 }
 
@@ -116,7 +126,7 @@ void modifyTeam(vector<BasketballTourney::BBallTeam> myTeamVector, string name){
 
             //modify menu
             cout<<"1. Name"<<endl<<"2. Games played"<<endl<<"3. Games won"<<endl<<"4. Offensive Efficiency"<<endl<<"5. Defensive Efficiency"
-            <<endl<<"6. Power Rate"<<endl<<"7. Goal Percentage Shot"<<endl<<"8. Goal Percentage Allowed"<<endl<<"-1. exit"<<endl;
+                <<endl<<"6. Power Rate"<<endl<<"7. Goal Percentage Shot"<<endl<<"8. Goal Percentage Allowed"<<endl<<"-1. exit"<<endl;
             cout<<"Pick one to modify(-1 to exit): ";
             cin>>pick;
             switch(pick){
@@ -182,7 +192,7 @@ void modifyTeam(vector<BasketballTourney::BBallTeam> myTeamVector, string name){
 
                         //error message if power rate > 1
                         if(powerRate>1)
-                            cout<<"error: power rate > 1."<<endl;                            
+                            cout<<"error: power rate > 1."<<endl;
                         else
                             pass=true;
                     }
@@ -213,11 +223,11 @@ void modifyTeam(vector<BasketballTourney::BBallTeam> myTeamVector, string name){
         //completed message
         cout<<"Team modification completed"<<endl;
         cout<<"Name: "<<myTeamVector[loc].getName()<<" Games played: "<<myTeamVector[loc].getNumGamesPlayed()<<" Games won: "<<myTeamVector[loc].getNumGamesWon()<<" \nOffensive Efficiency: "
-        <<myTeamVector[loc].getOffensiveEfficiency()<<" Defensive Efficiency: "<<myTeamVector[loc].getDefensiveEfficiency()<<" Power Rate: "<<myTeamVector[loc].getPowerRate()
-        <<" \nGoal Percentage Shot: "<<myTeamVector[loc].getGoalPercentageShot()<<" Goal Percentage Allowed: "<<myTeamVector[loc].getGoalPercentageAllowed()<<" Power: "<<myTeamVector[loc].getPower()<<endl<<endl;
+            <<myTeamVector[loc].getOffensiveEfficiency()<<" Defensive Efficiency: "<<myTeamVector[loc].getDefensiveEfficiency()<<" Power Rate: "<<myTeamVector[loc].getPowerRate()
+            <<" \nGoal Percentage Shot: "<<myTeamVector[loc].getGoalPercentageShot()<<" Goal Percentage Allowed: "<<myTeamVector[loc].getGoalPercentageAllowed()<<" Power: "<<myTeamVector[loc].getPower()<<endl<<endl;
     }
 
-    //if team does not exist, ask user if he wants to add this new team
+        //if team does not exist, ask user if he wants to add this new team
     else{
         char yn;
         cout<<"team does not exist, do you want to add it to the list?(Y/N)"<<endl;
@@ -240,18 +250,18 @@ int main(){
     double power;
 
     ifstream myfile;
-	myfile.open("cbb20.csv");
+    myfile.open("cbb20.csv");
 
     //check if file opened
     if (!myfile.is_open()) {
-        cout<<"failture to open the file."<<endl;
+        cout<<"File opening unsuccessful."<<endl;
     }
     else{
-        cout<<"file opened successfully."<<endl;
+        cout<<"File opened successfully!"<<endl;
 
         //a vector to store all existing teams
         vector<BasketballTourney::BBallTeam> myTeamVector;
-
+        BasketballTourney::BBallTournament newTournament;
         //read the file and store the first 32 teams to myTeamVector
         getline(myfile, temp);
         for(size_t i=0;i<32;i++){
@@ -289,16 +299,17 @@ int main(){
         while(pick!=-1){
 
             //pls give a nice introduce title
-            cout<<"title"<<endl;
-            cout<<"pick 1(-1 to exit)"<<endl;
+            cout<<"Basketball Thing!"<<endl;
             cout<<"1. Display all teams."<<endl;
-            cout<<"2. add a new team."<<endl;
-            cout<<"3. modity a existing team."<<endl;
-            cout<<"4. remove a team."<<endl;
-            cout<<"5. start the tournament."<<endl;
+            cout<<"2. Add a new team."<<endl;
+            cout<<"3. Modify a existing team."<<endl;
+            cout<<"4. Remove a team."<<endl;
+            cout<<"5. Start the tournament."<<endl;
             cout<<"6. List all the winning teams in the history."<<endl;
-            cout<<"-1 to exit."<<endl;
+            cout<<"-1. Exit."<<endl;
+            cout << "Input an option: ";
             cin>>pick;
+            cout << endl;
             switch(pick){
                 case 1:{//Display all teams
                     displayAll(myTeamVector);
@@ -306,14 +317,14 @@ int main(){
                 }
                 case 2:{//add a new team
                     string teamName;
-                    cout<<"enter the team name."<<endl;
+                    cout<<"Enter a team name."<<endl;
                     cin>>teamName;
                     addTeam(myTeamVector,teamName);
                     break;
                 }
-                case 3:{//modity a existing team
+                case 3:{//modify an existing team
                     string teamName;
-                    cout<<"enter the team name."<<endl;
+                    cout<<"Enter the team name."<<endl;
                     cin>>teamName;
                     modifyTeam(myTeamVector,teamName);
                     break;
@@ -322,16 +333,23 @@ int main(){
                     break;
                 }
                 case 5:{//start the tournament.
+
+                    newTournament.addParticipatingTeams(myTeamVector);
+                    /*
+                     newTournament.startTournament();
+                     This is fucking up and idk why, it's giving me an std out of range error
+                     If anyone wants to try and fix this please do so, this is brainrot inducing
+                     */
                     break;
                 }
                 case 6:{//List all the winning teams in the history
                     break;
                 }
                 case -1:
-                    cout<<"program ended"<<endl;
+                    cout<<"Exiting program..."<<endl;
                     break;
                 default:
-                    cout<<"invaild command."<<endl;
+                    cout<<"Invalid command."<<endl;
             }
         }
     }
