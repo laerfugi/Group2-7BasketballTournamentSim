@@ -150,6 +150,7 @@ namespace BasketballTourney{
         // tempval is decreased
         // final value in participatingTeams is pushed as final result
         // results are printed
+        //
         while (tempVal != 1) {
             matchup.push_back(participatingTeams.front());
             swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()-1));
