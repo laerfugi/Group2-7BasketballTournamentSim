@@ -65,6 +65,7 @@ namespace BasketballTourney{
         void startTournament();//Clears tournament vector
         void swap(BBallTeam team1, BBallTeam team2); // swaps the position of 2 teams in the vector.
     private:
+        //Declares the private team vectors
         vector<BBallTeam> participatingTeams;
         vector<BBallTeam> results;
         vector<BBallTeam> matchup;

@@ -144,7 +144,12 @@ namespace BasketballTourney{
         // Declares a temporary value to
         int tempVal = participatingTeams.size();
 
-        // While tempVal is != 1,
+        // While tempVal is != 1, the participating teams at the front are pushed back to matchup
+        // the front is swapped out to the back and popped
+        // fight algorithm is called and the return value of that is pushed to= results
+        // tempval is decreased
+        // final value in participatingTeams is pushed as final result
+        // results are printed
         while (tempVal != 1) {
             matchup.push_back(participatingTeams.front());
             swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()-1));
@@ -152,7 +157,6 @@ namespace BasketballTourney{
             matchup.push_back(participatingTeams.at(1));
             swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()-1));
             participatingTeams.pop_back();
-            fight();
             results.push_back(fight());
 
             tempVal--;
