@@ -5,10 +5,12 @@
 // Created by Joaquin Warren April 2022
 #include <string>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-using namespace std;
+
 namespace BasketballTourney{
-
+    using namespace std;
     class BBallTeam{
         public:
         // default constructor
@@ -52,5 +54,20 @@ namespace BasketballTourney{
         double power;
     };
 
+    class BBallTournament {
+    public:
+        // Default Constructor
+        BBallTournament();
+        void printResults();// Prints results
+        BBallTeam fight(); // WIP algorithm, how do we decide who wins?  Compare the double power
+        void addParticipatingTeams(vector<BBallTeam> teams); // for every team inside the vector, push onto the participatingTeams queue
+        void clearMatchup(); //Clears matchup vector
+        void startTournament();//Clears tournament vector
+        void swap(BBallTeam team1, BBallTeam team2); // swaps the position of 2 teams in the vector.
+    private:
+        vector<BBallTeam> participatingTeams;
+        vector<BBallTeam> results;
+        vector<BBallTeam> matchup;
+    };
 }
 
