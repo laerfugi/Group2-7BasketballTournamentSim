@@ -6,6 +6,7 @@
 // Tournament created by Shendwei Jian and Jacob Perez April 2022
 
 #include "BBallTeam.hpp"
+#include <cstring>
 
 using namespace std;
 namespace BasketballTourney{
@@ -68,6 +69,7 @@ namespace BasketballTourney{
         return power;
     }
 
+
     // Mutators
     void BBallTeam::setName(string myName){
         name = myName;
@@ -119,16 +121,18 @@ namespace BasketballTourney{
     }
 
     void BBallTournament::fight(BBallTeam team1, BBallTeam team2) {
+
+        cout << team1.getName()<<" power: "<<team1.getPower()<<endl;
+        cout<<"       VS                 ";
         // If team2 power > team1 power, team1 swaps position with team 2
         if (team2.getPower() > team1.getPower()) {
             swap(team1, team2);
-            cout << team2.getName() <<" power: "<<team2.getPower()<< " has won!" << endl;
-            cout << team1.getName() <<" power: "<<team1.getPower()<< " has lose!" << endl;
+            cout << team2.getName()<< " has won!" << endl;
         } 
          else {
-            cout << team1.getName() <<" power: "<<team1.getPower()<< " has won!" << endl;
-            cout << team2.getName() <<" power: "<<team2.getPower()<< " has lose!" << endl;
+            cout << team1.getName()<< " has won!" << endl;
         }
+        cout<<team2.getName()<<" power: "<<team2.getPower()<<endl<<endl;
     }// WIP algorithm, how do we decide who wins?  Compare the double power
 
     void BBallTournament::addParticipatingTeams(vector<BBallTeam> teams) {
@@ -140,10 +144,21 @@ namespace BasketballTourney{
     void BBallTournament::startTournament(){
         BBallTeam winner;
         string teamName;
+        bool exist=false;
         // Display every participating team
         printParticipatingTeams();
-        cout << "Input your team name: ";
-        cin >> teamName;
+        while(!exist){
+            cout << "Input your team name: ";
+            cin >> teamName;
+            for(size_t i= 0;i<participatingTeams.size();i++){
+                if(strcasecmp(teamName.c_str(), participatingTeams[i].getName().c_str()) == 0){
+                    exist= true;
+                }
+            }
+            if(!exist){
+                cout<<"please enter an existing team name."<<endl;
+            }
+        }
         // Shuffles the teams around every match
         random_shuffle(participatingTeams.begin(), participatingTeams.end());
         matchup(participatingTeams.size());
@@ -154,10 +169,10 @@ namespace BasketballTourney{
             results.push_back(participatingTeams[i]);
         }
         // Congratulations if you won btw
-        if (participatingTeams.at(0).getName() == teamName) {
-            cout << "Congratulations!" << endl;
+        if(strcasecmp(teamName.c_str(), participatingTeams[0].getName().c_str()) == 0){
+            cout << "Congratulations! You are the champion!" << endl;
         }
-        cout << "------------------" << endl;
+        cout << "------------------------------" << endl;
     }
 
     void BBallTournament::matchup(size_t size){
@@ -166,6 +181,18 @@ namespace BasketballTourney{
             for(size_t i=0;i<newSize;i++){\
                 cout << "Game " << i+1 << ":" << endl;
                 fight(participatingTeams[i],participatingTeams[size-i-1]);
+            }
+            if(newSize==16){
+                cout<<"16 teams have advanced, and the 1/8 final will be played next."<<endl;
+            }
+            else if(newSize==8){
+                cout<<"8 teams have advanced, and the 1/4 final will be played next."<<endl;
+            }
+            else if(newSize==4){
+                cout<<"4 teams have advanced, and the semifinal will be played next."<<endl;
+            }
+            else if(newSize==2){
+                cout<<"the top 2 teams have advanced, and the final will be played next."<<endl;
             }
             /* Commented out for cleaning
             for(size_t i=0;i<participatingTeams.size();i++){
