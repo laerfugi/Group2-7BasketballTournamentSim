@@ -4,7 +4,7 @@
 
 // Created by Shengwei Jian April 2022
 
-#include "BBallTeam.cpp"
+#include "BBallTeam.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>

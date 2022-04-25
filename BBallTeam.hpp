@@ -40,7 +40,7 @@ namespace BasketballTourney{
         void setPowerRate(double myPowerRate);
         void setGoalPercentageShot(double percentShot);
         void setGoalPercentageAllowed(double percentAllowed);
-        void setPower(double myPower);
+        void setPower(double myPowerRate);
 
         private:
         string name;
@@ -59,16 +59,15 @@ namespace BasketballTourney{
         // Default Constructor
         BBallTournament(); // IDk what to do with the constructor but it's here
         void printResults();// Prints results
-        BBallTeam fight(); // WIP algorithm, how do we decide who wins?  Compare the double power
+        void fight(BBallTeam team1, BBallTeam team2); // WIP algorithm, how do we decide who wins?  Compare the double power
         void addParticipatingTeams(vector<BBallTeam> teams); // for every team inside the vector, push onto the participatingTeams queue
-        void clearMatchup(); //Clears matchup vector
+        void matchup(size_t size);
         void startTournament();//Clears tournament vector
         void swap(BBallTeam team1, BBallTeam team2); // swaps the position of 2 teams in the vector.
     private:
         //Declares the private team vectors
         vector<BBallTeam> participatingTeams;
         vector<BBallTeam> results;
-        vector<BBallTeam> matchup;
     };
 }
 

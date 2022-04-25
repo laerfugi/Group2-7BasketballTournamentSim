@@ -92,8 +92,8 @@ namespace BasketballTourney{
     void BBallTeam::setGoalPercentageAllowed(double percentAllowed){
         goalPercentageAllowed = percentAllowed;
     }
-    void BBallTeam::setPower(double myPower){
-        power = myPower;
+    void BBallTeam::setPower(double myPowerRate){
+        power = myPowerRate;
     }
 
     // Kinda confused on what to do with the Tournament constructor
@@ -109,78 +109,71 @@ namespace BasketballTourney{
         }
     }
 
-    BBallTeam BBallTournament::fight() {
-        // Declares the fight loser
-        BBallTeam fightLoser;
+    void BBallTournament::fight(BBallTeam team1, BBallTeam team2) {
 
-        // If team 0 is greater than team 1, winning team is pushed back into participating teams
-        // else, team 1 is pushed back into participating teams
-        if (matchup.at(0).getPower() > matchup.at(1).getPower()) {
-            participatingTeams.push_back(matchup.at(0));
-            matchup.at(1) = fightLoser;
-            swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()));
-            cout << matchup.at(0).getName() << " has won!" << endl;
-        }  else {
-            participatingTeams.push_back(matchup.at(1));
-            matchup.at(0) = fightLoser;
-            swap(participatingTeams.front(), participatingTeams.at(participatingTeams.size()));
-            cout << matchup.at(1).getName() << " has won!" << endl;
+        if (team2.getPower() > team1.getPower()) {
+            swap(team1, team2);
+            cout << team2.getName() <<" power: "<<team2.getPower()<< " has won!" << endl;
+            cout << team1.getName() <<" power: "<<team1.getPower()<< " has lose!" << endl;
+        } 
+         else {
+            cout << team1.getName() <<" power: "<<team1.getPower()<< " has won!" << endl;
+            cout << team2.getName() <<" power: "<<team2.getPower()<< " has lose!" << endl;
         }
-        clearMatchup();
-
-        return fightLoser;
     }// WIP algorithm, how do we decide who wins?  Compare the double power
 
     void BBallTournament::addParticipatingTeams(vector<BBallTeam> teams) {
-        for (int i = 0; i < (int) teams.size() - 1; i++) {
+        for (size_t i = 0; i <teams.size(); i++) {
             participatingTeams.push_back(teams.at(i));
         }
     } // for every team inside the vector, push onto the participatingTeams queue
-
-    void BBallTournament::clearMatchup() {
-        // Clears the matchup vector
-        for (int i = 0; i < (int) matchup.size() - 1; i++) {
-            matchup.pop_back();
-        }
-    }
 
     void BBallTournament::startTournament(){
         BBallTeam winner;
         string teamName;
         cout << "Input your team name: ";
-        getline(cin, teamName);
-        // Declares a temporary value to
-        int tempVal = (int) participatingTeams.size();
+        cin>>teamName;
 
-        // While tempVal is != 1, the participating teams at the front are pushed back to matchup
-        // the front is swapped out to the back and popped
-        // fight algorithm is called and the return value of that is pushed to= results
-        // tempval is decreased
-        // final value in participatingTeams is pushed as final result
-        // results are printedd
-        while (tempVal != 1) {
-            matchup.push_back(participatingTeams.back());
-            participatingTeams.pop_back();
-            matchup.push_back(participatingTeams.back());
-            participatingTeams.pop_back();
-            results.push_back(fight());
 
-            tempVal--;
+        matchup(participatingTeams.size());
+        for(size_t i=0;i<participatingTeams.size();i++){
+            cout<<i<<". "<<participatingTeams[i].getName()<<endl;
         }
-        results.push_back(participatingTeams.at(0));
-        if (participatingTeams.at(0).getName() == winner.getName()) {
-            cout << "Your team has won!" << endl;
-        }
-        printResults();
     }
+
+    void BBallTournament::matchup(size_t size){
+        size_t newSize=size/2;
+        if(size>1){
+            for(size_t i=0;i<newSize;i++){
+                fight(participatingTeams[i],participatingTeams[size-i-1]);
+            }
+            for(size_t i=0;i<participatingTeams.size();i++){
+                cout<<i<<". "<<participatingTeams[i].getName()<<endl;
+            }
+            cout<<"------------------"<<endl;
+            matchup(newSize);
+        }
+    }
+
     void BBallTournament::swap(BBallTeam team1, BBallTeam team2){
-        // Stores team1 in tempteam, makes team1 into team2 and team2 into tempteam
+        size_t team1Loc;
+        size_t team2Loc;
         BBallTeam tempTeam;
-        tempTeam = team1;
-        team1 = team2;
-        team2 = tempTeam;
-        // Swaps out the team value at 0 and the team
-        participatingTeams.at(0) = team1;
-        participatingTeams.at(participatingTeams.size()-1) = team2;
-    }// swap the position of 2 teams.
+        for(size_t i=0;i<participatingTeams.size();i++){
+            //mark the location of team1
+            if(participatingTeams[i].getName()==team1.getName()){
+                team1Loc= i;
+            }
+            //mark the location of team2
+            if(participatingTeams[i].getName()==team2.getName()){
+                team2Loc= i;
+            }
+        }
+        //set temp = team1
+        tempTeam= team1;
+        //set new team1 = team2
+        participatingTeams[team1Loc]=team2;
+        //set new team2 = tempTeam
+        participatingTeams[team2Loc]=tempTeam;
+    }
 }
