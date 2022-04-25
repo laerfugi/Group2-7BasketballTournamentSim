@@ -4,7 +4,7 @@
 
 // Created by Shengwei Jian April 2022
 
-#include "BBallTeam.cpp"
+#include "BBallTeam.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -59,33 +59,33 @@ void addTeam(vector<BasketballTourney::BBallTeam> myTeamVector,string name){
         double goalPercentageShot;
         double goalPercentageAllowed;
         double power;
-        cout<<"enter the number of games played: ";
+        cout<<"Enter the number of games played: ";
         cin>>numGamesPlayed;
         while(numGamesWon>numGamesPlayed){
-            cout<<"enter a number of games won: ";
+            cout<<"Enter a number of games won: ";
             cin>>numGamesWon;
 
             //error message if number of games won > number of games played.
             if(numGamesWon>numGamesPlayed){
-                cout<<"error: number of games won > number of games played."<<endl;
+                cout<<"Error: Number of games won > Number of games played."<<endl;
             }
         }
-        cout<<"enter a offensive efficiency: ";
+        cout<<"Enter a offensive efficiency: ";
         cin>>offensiveEfficiency;
-        cout<<"enter a defensive efficiency: ";
+        cout<<"Enter a defensive efficiency: ";
         cin>>defensiveEfficiency;
         while(powerRate>1){
-            cout<<"enter a power rate: ";
+            cout<<"Enter a power rate: ";
             cin>>powerRate;
 
             //error message if power rate > 1.
             if(powerRate>1){
-                cout<<"error: power rate > 1."<<endl;
+                cout<<"Error: power rate > 1."<<endl;
             }
         }
-        cout<<"enter a goal percentage shot: ";
+        cout<<"Enter a goal percentage shot: ";
         cin>>goalPercentageShot;
-        cout<<"enter a goal percentage allowed: ";
+        cout<<"Enter a goal percentage allowed: ";
         cin>>goalPercentageAllowed;
         myTeam.setName(name);
         myTeam.setNumGamesPlayed(numGamesPlayed);
@@ -101,10 +101,18 @@ void addTeam(vector<BasketballTourney::BBallTeam> myTeamVector,string name){
         myTeamVector.push_back(myTeam);
 
         //completed message
-        cout<<"Team added successfully"<<endl;
-        cout<<"Name: "<<myTeam.getName()<<" Games played: "<<myTeam.getNumGamesPlayed()<<" Games won: "<<myTeam.getNumGamesWon()<<" \nOffensive Efficiency: "
-            <<myTeam.getOffensiveEfficiency()<<" Defensive Efficiency: "<<myTeam.getDefensiveEfficiency()<<" Power Rate: "<<myTeam.getPowerRate()
-            <<" \nGoal Percentage Shot: "<<myTeam.getGoalPercentageShot()<<" Goal Percentage Allowed: "<<myTeam.getGoalPercentageAllowed()<<" Power: "<<myTeam.getPower()<<endl<<endl;
+        cout << "----------------------------------" << endl;
+        cout<<" Team added successfully! "<<endl;
+        cout<<" Name: "<<myTeam.getName()<<endl;
+        cout<<" Games played: "<<myTeam.getNumGamesPlayed()<<endl;
+        cout<<" Games won: "<<myTeam.getNumGamesWon()<<endl;
+        cout<<" Offensive Efficiency: "<<myTeam.getOffensiveEfficiency()<<endl;
+        cout<<" Defensive Efficiency: "<<myTeam.getDefensiveEfficiency()<<endl;
+        cout<<" Power Rate: "<<myTeam.getPowerRate()<<endl;
+        cout<<" Goal Percentage Shot: "<<myTeam.getGoalPercentageShot()<<endl;
+        cout<<" Goal Percentage Allowed: "<<myTeam.getGoalPercentageAllowed()<<endl;
+        cout<<" Power: "<<myTeam.getPower()<<endl;
+        cout << "----------------------------------" << endl;
     }
 }
 
@@ -250,6 +258,7 @@ int main(){
     double goalPercentageAllowed;
     double power;
 
+
     ifstream myfile;
     myfile.open("cbb20.csv");
 
@@ -262,7 +271,7 @@ int main(){
 
         //a vector to store all existing teams
         vector<BasketballTourney::BBallTeam> myTeamVector;
-        BasketballTourney::BBallTournament newTournament;
+        vector<BasketballTourney::BBallTournament> tournamentVector;
         //read the file and store the first 32 teams to myTeamVector
         getline(myfile, temp);
         for(size_t i=0;i<32;i++){
@@ -301,7 +310,7 @@ int main(){
         while(pick!=-1){
 
             //pls give a nice introduce title
-            cout<<"Basketball Thing!"<<endl;
+            cout<<"Basketball Program!"<<endl;
             cout<<"1. Display all teams."<<endl;
             cout<<"2. Add a new team."<<endl;
             cout<<"3. Modify a existing team."<<endl;
@@ -335,16 +344,28 @@ int main(){
                     break;
                 }
                 case 5:{//start the tournament.
-
-                    newTournament.addParticipatingTeams(myTeamVector);
-                    
-                     newTournament.startTournament();
-                    /* This is fucking up and idk why, it's giving me an std out of range error
-                     If anyone wants to try and fix this please do so, this is brainrot inducing
-                     */
-                    break;
+                    BasketballTourney::BBallTournament newTournament;
+                    if ((myTeamVector.size() % 2) != 0) {
+                        cout << "Error: Uneven team count" << endl;
+                        break;
+                    } else
+                        newTournament.addParticipatingTeams(myTeamVector);
+                        newTournament.startTournament();
+                        /* This is screwing up and idk why, it's giving me an std out of range error
+                        If anyone wants to try and fix this please do so, this is brainrot inducing
+                        NOTE: Thank you to Shengwei Jian for the fix
+                        */
+                        // Pushes tournament into tournament vector
+                        tournamentVector.push_back(newTournament);
+                        break;
                 }
                 case 6:{//List all the winning teams in the history
+                    int tournamentNumber;
+                    cout << "Which tournament results do you want to view?" << endl;
+                    cout << "Input: ";
+                    cin >> tournamentNumber;
+                    cout << "Tournament " << tournamentNumber << " results: " << endl;
+                    tournamentVector[tournamentNumber].printResults();
                     break;
                 }
                 case -1:

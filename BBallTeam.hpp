@@ -59,6 +59,7 @@ namespace BasketballTourney{
         // Default Constructor
         BBallTournament(); // IDk what to do with the constructor but it's here
         void printResults();// Prints results
+        void printParticipatingTeams();
         void fight(BBallTeam team1, BBallTeam team2); // WIP algorithm, how do we decide who wins?  Compare the double power
         void addParticipatingTeams(vector<BBallTeam> teams); // for every team inside the vector, push onto the participatingTeams queue
         void matchup(size_t size);

@@ -3,6 +3,7 @@
 // Implementation of the BasketballTeam Class
 
 // Created by Joaquin Warren April 2022
+// Tournament created by Shendwei Jian and Jacob Perez April 2022
 
 #include "BBallTeam.hpp"
 
@@ -105,12 +106,20 @@ namespace BasketballTourney{
     // Prints results, last in vector should be
     void BBallTournament::printResults() {
         for (int i=0; i< (int) results.size(); i++) {
-            cout << results.size() << results.at(i).getName() << endl;
+            cout << i + 1 << ". " << results.at(i).getName() << endl;
         }
+        cout << "------------------" << endl;
+    }
+    // displays currently participating teams
+    void BBallTournament::printParticipatingTeams() {
+        for (size_t j=0; j < participatingTeams.size(); j++) {
+            cout << participatingTeams[j].getName() << endl;
+        }
+        cout << "------------------" << endl;
     }
 
     void BBallTournament::fight(BBallTeam team1, BBallTeam team2) {
-
+        // If team2 power > team1 power, team1 swaps position with team 2
         if (team2.getPower() > team1.getPower()) {
             swap(team1, team2);
             cout << team2.getName() <<" power: "<<team2.getPower()<< " has won!" << endl;
@@ -131,25 +140,38 @@ namespace BasketballTourney{
     void BBallTournament::startTournament(){
         BBallTeam winner;
         string teamName;
+        // Display every participating team
+        printParticipatingTeams();
         cout << "Input your team name: ";
-        cin>>teamName;
-
-
+        cin >> teamName;
+        // Shuffles the teams around every match
+        random_shuffle(participatingTeams.begin(), participatingTeams.end());
         matchup(participatingTeams.size());
+        // Once matchup is over, full tournament results are displayed
+        cout << "Tournament Results: " << endl;
         for(size_t i=0;i<participatingTeams.size();i++){
-            cout<<i<<". "<<participatingTeams[i].getName()<<endl;
+            cout << i + 1 << ". " << participatingTeams[i].getName() << endl;
+            results.push_back(participatingTeams[i]);
         }
+        // Congratulations if you won btw
+        if (participatingTeams.at(0).getName() == teamName) {
+            cout << "Congratulations!" << endl;
+        }
+        cout << "------------------" << endl;
     }
 
     void BBallTournament::matchup(size_t size){
         size_t newSize=size/2;
         if(size>1){
-            for(size_t i=0;i<newSize;i++){
+            for(size_t i=0;i<newSize;i++){\
+                cout << "Game " << i+1 << ":" << endl;
                 fight(participatingTeams[i],participatingTeams[size-i-1]);
             }
+            /* Commented out for cleaning
             for(size_t i=0;i<participatingTeams.size();i++){
-                cout<<i<<". "<<participatingTeams[i].getName()<<endl;
+                cout<<i+1<<". "<<participatingTeams[i].getName()<<endl;
             }
+             */
             cout<<"------------------"<<endl;
             matchup(newSize);
         }
