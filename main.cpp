@@ -246,6 +246,31 @@ void modifyTeam(vector<BasketballTourney::BBallTeam> myTeamVector, string name){
         }
     }
 }
+
+void removeTeam(vector<BasketballTourney::BBallTeam> &myTeamVector, string name) {
+    bool exist = false;
+    int location;
+
+    //checks if the team exists in the vector
+    for (size_t i = 0; i < myTeamVector.size(); i++) {
+        if(myTeamVector[i].getName() == name) {
+            exist = true;
+            location = i;
+        }
+    }
+
+    //checks if the user input team is in the vector
+    if (exist == false) { //if not in the vector
+        cout << "Team does not exist. Enter a different team to remove: " <<endl;
+        cin >> name; //prompt the user to input another team that exists
+        removeTeam(myTeamVector, name); 
+    }
+    else {
+        myTeamVector.erase(myTeamVector.begin()+location); //removes the team at location
+        cout << name << " team was successfully removed." << endl;
+    }
+}
+
 int main(){
     string temp;
     string name;
@@ -341,6 +366,10 @@ int main(){
                     break;
                 }
                 case 4:{//remove a team
+                    string teamName;
+                    cout << "Enter a team to remove." << endl;
+                    cin >> teamName;
+                    removeTeam(myTeamVector, teamName);
                     break;
                 }
                 case 5:{//start the tournament.
