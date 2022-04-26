@@ -352,7 +352,49 @@ int main(){
             myTeam.setPower();
             myTeamVector.push_back(myTeam);
         }
+        myfile.close();
+        ifstream fileTwo;
+        fileTwo.open("cbb19.csv");
+        
 
+        if (!fileTwo.is_open()) {
+        cout<<"File opening unsuccessful."<<endl;
+        }
+        else{
+            cout<<"File opened successfully!"<<endl;
+            getline(fileTwo, temp); // skip
+            for(size_t i=0;i<353;i++){ // 353 total
+                BasketballTourney::BBallTeam myTeam;
+                getline (fileTwo,name,',');
+                getline (fileTwo,temp,',');
+                fileTwo>>numGamesPlayed;
+                getline (fileTwo,temp,',');
+                fileTwo>>numGamesWon;
+                getline (fileTwo,temp,',');
+                fileTwo>>offensiveEfficiency;
+                getline (fileTwo,temp,',');
+                fileTwo>>defensiveEfficiency;
+                getline (fileTwo,temp,',');
+                fileTwo>>powerRate;
+                getline (fileTwo,temp,',');
+                fileTwo>>goalPercentageShot;
+                getline (fileTwo,temp,',');
+                fileTwo>>goalPercentageAllowed;
+                getline(fileTwo, temp);
+                myTeam.setName(name);
+                myTeam.setNumGamesPlayed(numGamesPlayed);
+                myTeam.setNumGamesWon(numGamesWon);
+                myTeam.setOffensiveEfficiency(offensiveEfficiency);
+                myTeam.setDefensiveEfficiency(defensiveEfficiency);
+                myTeam.setPowerRate(powerRate);
+                myTeam.setGoalPercentageShot(goalPercentageShot);
+                myTeam.setGoalPercentageAllowed(goalPercentageAllowed);
+                myTeam.setPower();
+                myTeamVector.push_back(myTeam);
+            }
+            fileTwo.close();
+        }
+      
         //user menu
         int pick;
         while(pick!=-1){
@@ -428,6 +470,6 @@ int main(){
             }
         }
     }
-    myfile.close();
+    
     return 0;
 }
