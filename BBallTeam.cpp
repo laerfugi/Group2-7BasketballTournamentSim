@@ -153,7 +153,7 @@ namespace BasketballTourney{
                 for (int x = 0; x < (totalNeeded-currentAmount); ++x) {
                     bool teamFound = false;
                     while (currentAmount != totalNeeded) { //check if the team selected is in the participatingTeams vector, if it is then reroll, else push
-                        randomTeam = (rand() % 353) - 1;
+                        randomTeam = (rand() % 700) - 1;
                         teamFound = false;
                         if (randomTeam < 0) {
                           randomTeam = 0;
