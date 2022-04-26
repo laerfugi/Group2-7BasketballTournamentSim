@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include <random>
 
 namespace BasketballTourney{
     using namespace std;
@@ -40,7 +40,7 @@ namespace BasketballTourney{
         void setPowerRate(double myPowerRate);
         void setGoalPercentageShot(double percentShot);
         void setGoalPercentageAllowed(double percentAllowed);
-        void setPower(double myPowerRate);
+        void setPower();
 
         private:
         string name;

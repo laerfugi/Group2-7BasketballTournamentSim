@@ -95,8 +95,11 @@ namespace BasketballTourney{
     void BBallTeam::setGoalPercentageAllowed(double percentAllowed){
         goalPercentageAllowed = percentAllowed;
     }
-    void BBallTeam::setPower(double myPowerRate){
-        power = myPowerRate;
+    void BBallTeam::setPower(){
+        double winRate = (getNumGamesWon()*1.0)/(getNumGamesPlayed()*1.0);
+        double totalEfficiency = getOffensiveEfficiency()+getDefensiveEfficiency();
+        double myPowerRate = getPowerRate();
+        power = myPowerRate*winRate*totalEfficiency*(getGoalPercentageShot()/100.0);
     }
 
     // Kinda confused on what to do with the Tournament constructor
@@ -136,8 +139,54 @@ namespace BasketballTourney{
     }// WIP algorithm, how do we decide who wins?  Compare the double power
 
     void BBallTournament::addParticipatingTeams(vector<BBallTeam> teams) {
-        for (size_t i = 0; i <teams.size(); i++) {
-            participatingTeams.push_back(teams.at(i));
+        string teamName;
+        int currentAmount = 0;
+        int totalNeeded = 32;
+        int randomTeam;
+        srand(rand()%1000); // set seed to random value
+        while (currentAmount != totalNeeded) {
+            cout << "Currently has " << currentAmount << " out of " << totalNeeded << " teams." << endl;
+            cout << "Which team name would you like to add? Enter -1 if you want the rest to be randomly chosen." << endl;
+            cin >> teamName;
+            if(teamName == "-1") {
+                cout << "Randomly adding the rest of the teams." << endl;
+                for (int x = 0; x < (totalNeeded-currentAmount); ++x) {
+                    bool teamFound = false;
+                    while (currentAmount != totalNeeded) { //check if the team selected is in the participatingTeams vector, if it is then reroll, else push
+                        randomTeam = (rand() % 353) - 1;
+                        teamFound = false;
+                        if (randomTeam < 0) {
+                          randomTeam = 0;
+                        }
+                        for(size_t i=0;i<participatingTeams.size();i++){ 
+                            if(participatingTeams[i].getName() == teams[randomTeam].getName()){ // IF ALREADY INSIDE VECTOR
+                                teamFound = true;
+                            }
+                        }
+                        if (!teamFound) {
+                            currentAmount++;
+                            cout << teams.at(randomTeam).getName() << " added!" << endl;
+                            participatingTeams.push_back(teams.at(randomTeam));
+                        }
+                    }
+                }
+                cout << endl;
+            }
+            else {
+                bool exist=false;
+                //find if team name exist in myTeamVector
+                for(size_t i=0;i<teams.size();i++){
+                    if(teams[i].getName()==teamName){
+                        exist=true;
+                        cout << "Team found and added!" << endl;
+                        currentAmount++;
+                        participatingTeams.push_back(teams.at(i));
+                    }
+                }
+                if(!exist){
+                  cout << "Team does not exist!" << endl;
+                }
+            }
         }
     } // for every team inside the vector, push onto the participatingTeams queue
 
@@ -148,7 +197,7 @@ namespace BasketballTourney{
         // Display every participating team
         printParticipatingTeams();
         while(!exist){
-            cout << "Input your team name: ";
+            cout << "Guess which team is going to win: ";
             cin >> teamName;
             for(size_t i= 0;i<participatingTeams.size();i++){
                 if(strcasecmp(teamName.c_str(), participatingTeams[i].getName().c_str()) == 0){
@@ -156,7 +205,7 @@ namespace BasketballTourney{
                 }
             }
             if(!exist){
-                cout<<"please enter an existing team name."<<endl;
+                cout<<"Please enter an existing team name."<<endl;
             }
         }
         // Shuffles the teams around every match
